@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const Pizza = require('./Pizza.js');
+const PriceCalculator = require('./PriceCalculator.js');
 
 const app = express();
 
@@ -30,16 +31,16 @@ app.get('/', (req, res) => {
             large: pizzaSize.largeCost
         },
         crust : {
-            original: pizzaSize.crustOriginal,
-            thin: pizzaSize.crustThin,
-            multigrain: pizzaSize.crustMultigrain,
-            multigrainThin: pizzaSize.crustMultigrainThinCrust
+            original: pizzaSize.original,
+            thin: pizzaSize.thinCrust,
+            multigrain: pizzaSize.multigrain,
+            multigrainThin: pizzaSize.multigrainThinCrust
         },
         crustCost: {
-            original: pizzaSize.crustOriginalCost,
-            thin: pizzaSize.crustThinCost,
-            multigrain: pizzaSize.crustMultigrainCost,
-            multigrainThin: pizzaSize.crustMultigrainThinCost
+            original: pizzaSize.originalCost,
+            thin: pizzaSize.thinCrustCost,
+            multigrain: pizzaSize.multigrainCost,
+            multigrainThin: pizzaSize.multigrainThinCrustCost
         },
         toppings: {
             anchovies: pizzaSize.toppingsAnchovies,
@@ -54,9 +55,16 @@ app.get('/', (req, res) => {
             olives: pizzaSize.toppingsOlives
         },
         toppingsCost: {
-            basics: pizzaSize.toppingsCostBasics,
-            meat: pizzaSize.toppingsCostMeat,
-            veggies: pizzaSize.toppingsCostVeggies
+            anchovies: pizzaSize.toppingsAnchoviesCost,
+            bacon: pizzaSize.toppingsBaconCost,
+            bananaPeppers: pizzaSize.toppingsBananaPeppersCost,
+            cheese: pizzaSize.toppingsCheeseCost,
+            chicken: pizzaSize.toppingsChickenCost,
+            corn: pizzaSize.toppingsCornCost,
+            ham: pizzaSize.toppingsHamCost,
+            pepperoni: pizzaSize.toppingsPepperoniCost,
+            pineapple: pizzaSize.toppingsPineappleCost,
+            olives: pizzaSize.toppingsOlivesCost
         }
     });
 });
@@ -68,9 +76,8 @@ app.post('/views/orderConfirm.ejs', (req, res) => {
     const pizzaToppings = req.body.pizzaToppings;
 
     const pizzaOrder = new Pizza.Pizza(pizzaSize, pizzaCrust, pizzaToppings);
-
-    console.log(req.body);
-    
+    const calculator = new PriceCalculator.PriceCalculator(pizzaSize, pizzaCrust, pizzaToppings);
+    console.log(typeof pizzaToppings);
     res.render('orderConfirm',{
         name: reqBody.name,
         phoneNumber: reqBody.phoneNmber,
@@ -79,18 +86,18 @@ app.post('/views/orderConfirm.ejs', (req, res) => {
         city: reqBody.city,
         postalCode: reqBody.postalCode,
         title: "Pizza Page after post",
-        size: pizzaOrder.size,
-        sizeCost: pizzaOrder.sizeCost,
-        crust: pizzaOrder.crust,
-        crustCost: pizzaOrder.crustCost,
-        toppings: pizzaOrder.toppings,
-
-
-
-        totalCost: pizzaOrder.totalCost
+        size: pizzaOrder.pizzaSize,
+        sizeCost: calculator.showPizzaSizeCost(),
+        crust: pizzaOrder.pizzaCrust,
+        crustCost: calculator.showPizzaCrustCost(),
+        toppings: pizzaOrder.pizzaToppings,
+        toppingsCost: calculator.calculateToppingsCost(),
+        totalCost: calculator.calculateTotalCost()
     });
 });
 
 app.listen(3000, () => {
     console.log('listening on port 3000');
 });
+
+

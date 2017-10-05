@@ -1,43 +1,26 @@
 {
     "pizzaSize": {
-        "personal": "Personal",
-        "small": "Small",
-        "medium": "Medium",
-        "large": "Large"
-    },
-    "pizzaSizeCost": {
         "personal": "8.00",
         "small": "10.00",
         "medium": "12.00",
         "large": "14.00"
     },
     "pizzaCrust": {
-        "original": "Original",
-        "thinCrust": "Thin Crust",
-        "multigrain": "Multigrain",
-        "multigrainThinCrust": "Multigrain Thin Crust"
-    },
-    "pizzaCrustCost": {
         "original": "FREE",
         "thinCrust": "FREE",
         "multigrain": "1.00",
         "multigrainThinCrust": "0.50"
     },
     "toppings": {
-        "anchovies": "Anchovies",
-        "bacon": "Bacon",
-        "bananaPeppers": "Banana Peppers",
-        "cheese": "Cheese",
-        "chicken": "Chicken",
-        "corn": "Corn",
-        "ham": "Ham",
-        "pepperoni": "Pepperoni",
-        "pineapple": "Pineapple",
-        "olives": "Olives"
-    },
-    "toppingsCost": {
-        "basics": "0.25",
-        "meat": "1.00",
-        "veggies": "0.50"
+        "anchovies": "1.00",
+        "bacon": "0.50",
+        "bananaPeppers": "0.25",
+        "cheese": "0.25",
+        "chicken": "1.00",
+        "corn": "0.10",
+        "ham": "0.50",
+        "pepperoni": "0.50",
+        "pineapple": "0.50",
+        "olives": "0.75"
     }
 }
