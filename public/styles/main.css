@@ -1,0 +1,23 @@
+.header-title {
+    display: block;
+    margin: 0 auto;
+    width: 75%;
+}
+
+.header-title h2 {
+    color: #575757;
+    text-align: center;
+}
+
+.form-main {
+    display: block;
+    margin: 0 auto;
+    width: 50%;
+}
+
+
+#form-personal-information {
+    border-bottom: 1px solid #383838;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}

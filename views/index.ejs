@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html>
+    <% include partials/head.ejs %>
+    <body>
+        <% include partials/header.ejs %>
+        
+        <form class="form-main" action="./views/orderConfirm.ejs" method="post">
+            <div id="form-personal-information">
+                Name: <input type="text" name="name" id=""><br>
+                Phone Number: <input type="text" name="phoneNumber" id=""><br>
+                Street Address: <input type="text" name="streetAddress"><br>
+                Unit Number (Optional): <input type="text" name="unitNumber"><br>
+                City: <input type="text" name="city" id=""><br>
+                Postal Code: <input type="text" name="postalCode">
+
+                <br>
+            </div>
+            <div>
+                Quantity: <select name="select" class="pizza-quantity"></select>
+            </div>
+            <div>
+                <h3>
+                    Choose your size
+                </h3>
+            </div>
+            <div>
+                <input type="radio" name="pizzaSize" value=<%= size.personal %> id="pizza-size-personal" /><%= size.personal %> $<%= sizeCost.personal %>
+                <input type="radio" name="pizzaSize" value=<%= size.small %>  id="pizza-size-small" /><%= size.small %> $<%= sizeCost.small %>
+                <input type="radio" name="pizzaSize" value=<%= size.medium %> id="pizza-size-small" /><%= size.medium %> $<%= sizeCost.medium %>
+                <input type="radio" name="pizzaSize" value=<%= size.large %> id="pizza-size-small" /><%= size.large %> $<%= sizeCost.large %>
+            </div>
+            <div>
+                <h3>
+                    Choose your crust
+                </h3>
+            </div>
+            <div>
+                <input type="radio" name="pizzaCrust" value=<%= crust.original %>><%= crust.original %> <%= crustCost.original %>
+                <input type="radio" name="pizzaCrust" value=<%= crust.thin %>><%= crust.thin %> <%= crustCost.thin %>
+                <input type="radio" name="pizzaCrust" value=<%= crust.multigrain %>><%= crust.multigrain %> $<%= crustCost.multigrain %>
+                <input type="radio" name="pizzaCrust" value=<%= crust.multigrainThin %>><%= crust.multigrainThin %> $<%= crustCost.multigrainThin %>
+            </div>
+            <div>
+                <h3>
+                    Choose your toppings
+                </h3>
+            </div>
+            <div>
+                <input type="checkbox" name="pizzaToppings" value=<%= toppings.anchovies %> /><%=toppings.anchovies %> $<%= toppingsCost.meat %>
+                <input type="checkbox" name="pizzaToppings" value=<%= toppings.bacon %> /><%=toppings.bacon %> $<%= toppingsCost.meat %>
+                <input type="checkbox" name="pizzaToppings" value=<%= toppings.bananaPeppers %> /><%=toppings.bananaPeppers %> $<%= toppingsCost.veggies %>
+                <input type="checkbox" name="pizzaToppings" value=<%= toppings.cheese %> /><%=toppings.cheese %> $<%= toppingsCost.basics %>
+                <input type="checkbox" name="pizzaToppings" value=<%= toppings.chicken %> /><%=toppings.chicken %> $<%= toppingsCost.meat %>
+                <input type="checkbox" name="pizzaToppings" value=<%= toppings.corn %> /><%=toppings.corn %> $<%= toppingsCost.veggies %>
+                <input type="checkbox" name="pizzaToppings" value=<%= toppings.pepperoni %> /><%=toppings.pepperoni %> $<%= toppingsCost.basics %>
+                <input type="checkbox" name="pizzaToppings" value=<%= toppings.pineapple %> /><%=toppings.pineapple %> $<%= toppingsCost.veggies %>
+                <input type="checkbox" name="pizzaToppings" value=<%= toppings.olives %> /><%=toppings.olives %> $<%= toppingsCost.veggies %>
+            </div>
+            <input type="submit" name="submit" value="Order My Pizza!" id="order-submit">
+        </form>
+
+        <% include partials/footer.ejs %>
+    </body>
+</html>

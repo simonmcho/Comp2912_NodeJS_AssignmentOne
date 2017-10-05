@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+   <% include partials/head.ejs %>
+    <body>
+        <% include partials/header.ejs %>
+
+        <%= size %>
+        <%= sizeCost %>
+        <br>
+        <%= crust %>
+        <%= crustCost %>
+        <br>
+        <ul>
+            <li>
+                <%= toppings %>
+            </li>
+        </ul>
+        <br>
+        <h3>
+            <%= name %>
+        </h3>
+        <p>
+            <%= phoneNumber %>
+        </p>
+        <p>
+            <%= streetAddress %>
+        </p>
+        <p>
+            <%= unitNumber %>
+        </p>
+        <p>
+            <%= city %>
+        </p>
+        <p>
+            <%= postalCode %>
+        </p>
+
+        <% include partials/footer.ejs %>
+    </body>
+</html>
