@@ -126,6 +126,7 @@ app.post('/order', [
 
         // console.log(errorMessages);
         
+        console.log(reqBody.pizzaCrust);
         res.render('index', {
             title: "Pizza Page with Errors",
             //Resets original values so user can see what they previously entered
