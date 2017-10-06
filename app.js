@@ -119,13 +119,13 @@ app.post('/order', [
     //assign errors variable with the results of check validation
     const errors = check.validationResult(req);
 
-    console.log(res);
+    console.log(errors.isEmpty());
     if(!errors.isEmpty()){
         const pizza = new Pizza.Pizza();
         const errorMessages = errors.mapped();//returns an object with key value pairs for errors
 
-        console.log(errorMessages);
-
+        // console.log(errorMessages);
+        
         res.render('index', {
             title: "Pizza Page with Errors",
             //Resets original values so user can see what they previously entered
@@ -193,10 +193,7 @@ app.post('/order', [
             }
         });
     } else {
-        return 
-        console.log("WHAT")
-
-        res.render('orderConfirm',{
+        return res.render('orderConfirm',{
             name: reqBody.name,
             phoneNumber: reqBody.phoneNumber,
             streetAddress: reqBody.streetAddress,

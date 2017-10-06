@@ -62,7 +62,7 @@
                 </h3>
             </div>
             <div>
-                <input type="radio" name="pizzaSize" value=<%= size.personal %> id="pizza-size-personal" /><%= size.personal %> $<%= sizeCost.personal %>
+                <input type="radio" name="pizzaSize" value=<%= size.personal %> id="pizza-size-personal" checked=false /><%= size.personal %> $<%= sizeCost.personal %>
                 <input type="radio" name="pizzaSize" value=<%= size.small %>  id="pizza-size-small" /><%= size.small %> $<%= sizeCost.small %>
                 <input type="radio" name="pizzaSize" value=<%= size.medium %> id="pizza-size-small" /><%= size.medium %> $<%= sizeCost.medium %>
                 <input type="radio" name="pizzaSize" value=<%= size.large %> id="pizza-size-small" /><%= size.large %> $<%= sizeCost.large %>
@@ -73,7 +73,7 @@
                 </h3>
             </div>
             <div>
-                <input type="radio" name="pizzaCrust" value=<%= crust.original %>><%= crust.original %> <%= crustCost.original %>
+                <input type="radio" name="pizzaCrust" value=<%= crust.original %> checked=true><%= crust.original %> <%= crustCost.original %>
                 <input type="radio" name="pizzaCrust" value=<%= crust.thin %>><%= crust.thin %> <%= crustCost.thin %>
                 <input type="radio" name="pizzaCrust" value=<%= crust.multigrain %>><%= crust.multigrain %> $<%= crustCost.multigrain %>
                 <input type="radio" name="pizzaCrust" value=<%= crust.multigrainThin %>><%= crust.multigrainThin %> $<%= crustCost.multigrainThin %>

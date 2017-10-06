@@ -3,18 +3,18 @@
    <% include partials/head.ejs %>
     <body>
         <% include partials/header.ejs %>
-
-        <%= size %>
-        <%= sizeCost %>
-        <br>
-        <%= crust %>
-        <%= crustCost %>
-        <br>
-        <ul>
-            <li>
-                <%= toppings %>
-            </li>
-        </ul>
+        <div>
+            <h4>Pizza Size Chosen: <%= size %></h4>
+            <h4>PIzza Crust Chosen: <%= crust %></h4>
+            <h4>Toppings Chosen:</h4>
+            <br>
+            <ul>
+                    <li>
+                        <%= toppings %>
+                    </li>
+            </ul>
+        </div>
+       
         <br>
         <h3>
             Name: <%= name %>
