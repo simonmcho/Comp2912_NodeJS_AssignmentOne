@@ -1,0 +1,7 @@
+{
+    "nameError": "Your name can't be blank.",
+    "phoneError": "Please enter a valid phone number.",
+    "addressError": "Your address can't be blank",
+    "cityError": "Please enter a valid city",
+    "postalCodeError": "Please enter a valid postal code"
+}

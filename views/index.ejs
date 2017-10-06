@@ -3,20 +3,44 @@
     <% include partials/head.ejs %>
     <body>
         <% include partials/header.ejs %>
-        
+
+
+        <% if(typeof(test) !== 'undefined') { %>
+                    Test is <%= test %>
+        <% } %>
+
         <form class="form-main" action="./views/orderConfirm.ejs" method="post">
             <div id="form-personal-information">
-                Name: <input type="text" name="name" id=""><br>
-                Phone Number: <input type="text" name="phoneNumber" id=""><br>
-                Street Address: <input type="text" name="streetAddress"><br>
-                Unit Number (Optional): <input type="text" name="unitNumber"><br>
-                City: <input type="text" name="city" id=""><br>
+                Name: <input type="text" name="name" id=""> 
+                <% if(typeof(nameError) !== 'undefined') {%>
+                        <%= nameError %> 
+                <%    } %>
+                <br>
+                Phone Number: <input type="text" name="phoneNumber" id="">
+                <% if(typeof(phoneError) !== 'undefined') {%>
+                    <%= phoneError %> 
+                <%    } %>
+                <br>
+                Street Address: <input type="text" name="streetAddress">
+                <% if(typeof(addressError) !== 'undefined') {%>
+                    <%= addressError %> 
+                <%    } %>
+                <br>
+                Unit Number (Optional): <input type="text" name="unitNumber">
+                <br>
+                City: <input type="text" name="city" id="">
+                <% if(typeof(cityError) !== 'undefined') {%>
+                    <%= cityError %> 
+                <%    } %>
+                <br>
                 Postal Code: <input type="text" name="postalCode">
-
+                <% if(typeof(postalCodeError) !== 'undefined') {%>
+                    <%= postalCodeError %> 
+                 <%    } %>
                 <br>
             </div>
             <div>
-                Quantity: <select name="select" class="pizza-quantity"></select>
+                Quantity: <select class="pizza-quantity" name="pizzaQuantity"></select>
             </div>
             <div>
                 <h3>

@@ -3,7 +3,9 @@ const pizzaConfig = require('./config.json');
 //class to perform all pizza calculations
 class PriceCalculator {
     //constructor to calculate costs of size, crust, and toppings
-    constructor(size, crust, toppings){
+    constructor(quantity, size, crust, toppings){
+        this.numberOfPizzas = quantity;
+
         //assign the cost of pizza size using config.json
         if(size !== undefined){
             if(size === "personal"){
@@ -69,7 +71,8 @@ class PriceCalculator {
     }
 
     calculateTotalCost(){//return total cost
-        return this.sizeCost + this.crustCost + this.toppingsCost;
+        return this.numberOfPizzas * (this.sizeCost + this.crustCost + this.toppingsCost);
+     
     }
 }
 

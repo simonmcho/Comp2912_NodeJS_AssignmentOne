@@ -6,8 +6,8 @@
         "large": "14.00"
     },
     "pizzaCrust": {
-        "original": "FREE",
-        "thinCrust": "FREE",
+        "original": "0.00",
+        "thinCrust": "0.00",
         "multigrain": "1.00",
         "multigrainThinCrust": "0.50"
     },

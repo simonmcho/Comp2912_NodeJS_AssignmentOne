@@ -1,37 +1,6 @@
 const pizzaConfig = require('./config.json');
 
-class Pizza{
-    
-    constructor(size, crust, toppings){
-        this.pizzaSize = size;
-        
-        for(let size in pizzaConfig.pizzaSize){
-            if(this.pizzaSize === `${size}`){
-                this.pizzaSizeCost = `${pizzaConfig.pizzaSize[size]}`;
-            }
-        }
-
-        this.pizzaCrust = crust;
-
-        for(let crust in pizzaConfig.pizzaCrust){
-            if(this.pizzaCrust === `${crust}`){
-                this.pizzaCrustCost = `${pizzaConfig.pizzaCrust[crust]}`;
-            }
-        }
-
-        this.pizzaToppings = toppings;
-
-        for(let topping in pizzaConfig.toppings){
-            if(this.pizzaToppings === `${topping}`){
-                this.pizzaToppingsCost = `${pizzaConfig.toppings[topping]}`;
-            }
-        }
-
-        this.totalCost = this.sizeCost + this.crustCost;
-    }
-}
-
-class PizzaSize {
+class Pizza {//class Pizza to show pizza options
     constructor(){
 
         for(let size in pizzaConfig.pizzaSize){
@@ -53,10 +22,10 @@ class PizzaSize {
         for(let crust in pizzaConfig.pizzaCrust){
             if("original" === `${crust}`){
                 this.original     =  `${crust}`;
-                this.originalCost = `${pizzaConfig.pizzaCrust[crust]}`;
+                this.originalCost = "Free";
             } else if ("thinCrust" === `${crust}`){
                 this.thinCrust     = `${crust}`;
-                this.thinCrustCost = `${pizzaConfig.pizzaCrust[crust]}`;
+                this.thinCrustCost = "Free";
             } else if ("multigrain" === `${crust}`){
                 this.multigrain     = `${crust}`;
                 this.multigrainCost = `${pizzaConfig.pizzaCrust[crust]}`;
@@ -99,39 +68,42 @@ class PizzaSize {
                 this.toppingsOlivesCost = `${pizzaConfig.toppings[topping]}`;
             }
         }
+    }
+}
 
-   
-        // this.toppingsAnchovies     = pizzaConfig.toppings.anchovies;
-        // this.toppingsBacon         = pizzaConfig.toppings.bacon;
-        // this.toppingsBananaPeppers = pizzaConfig.toppings.bananaPeppers;
-        // this.toppingsCheese        = pizzaConfig.toppings.cheese;
-        // this.toppingsChicken       = pizzaConfig.toppings.chicken;
-        // this.toppingsCorn          = pizzaConfig.toppings.corn;
-        // this.toppingsHam           = pizzaConfig.toppings.ham;
-        // this.toppingsPepperoni     = pizzaConfig.toppings.pepperoni;
-        // this.toppingsPineapple     = pizzaConfig.toppings.pineapple;
-        // this.toppingsOlives        = pizzaConfig.toppings.olives;
 
-        // this.toppingsCostBasics  = pizzaConfig.toppingsCost.basics;
-        // this.toppingsCostMeat    = pizzaConfig.toppingsCost.meat;
-        // this.toppingsCostVeggies = pizzaConfig.toppingsCost.veggies;
+class PizzaOrder{
+    
+    constructor(size, crust, toppings){
+        this.pizzaSize = size;
+        
+        for(let size in pizzaConfig.pizzaSize){
+            if(this.pizzaSize === `${size}`){
+                this.pizzaSizeCost = `${pizzaConfig.pizzaSize[size]}`;
+            }
+        }
+
+        this.pizzaCrust = crust;
+
+        for(let crust in pizzaConfig.pizzaCrust){
+            if(this.pizzaCrust === `${crust}`){
+                this.pizzaCrustCost = `${pizzaConfig.pizzaCrust[crust]}`;
+            }
+        }
+
+        this.pizzaToppings = toppings;
+
+        for(let topping in pizzaConfig.toppings){
+            if(this.pizzaToppings === `${topping}`){
+                this.pizzaToppingsCost = `${pizzaConfig.toppings[topping]}`;
+            }
+        }
+
+        this.totalCost = this.sizeCost + this.crustCost;
     }
 }
 
 
 
+exports.PizzaOrder = PizzaOrder;
 exports.Pizza = Pizza;
-exports.PizzaSize = PizzaSize;
-
-    // "toppingsCost": {
-    //     "anchovies": "1.00",
-    //     "bacon": "0.50",
-    //     "bananaPeppers": "0.50",
-    //     "cheese": "0.00",
-    //     "chicken": "1.00",
-    //     "corn": "0.10",
-    //     "ham": "0.25",
-    //     "pepperoni": "0.50",
-    //     "pineapple": "0.25",
-    //     "olives": "0.75"
-    // }

@@ -1,99 +1,186 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const Pizza = require('./Pizza.js');
-const PriceCalculator = require('./PriceCalculator.js');
+//node modules
+const express = require('express'),
+      bodyParser = require('body-parser'),
+      expressSession = require("express-session"),
+      expressValidator = require('express-validator'),
+      validator = require('validator');
+
+//local modules
+ const errorMessage = require('./errorMessages.json');
+       Pizza = require('./Pizza.js'),
+       PriceCalculator = require('./PriceCalculator.js');
 
 const app = express();
 
 //Register body parser
 app.use(bodyParser.urlencoded({ extended: false}));
+app.use(expressValidator());
 app.set('view engine', 'ejs'); //setting configuration parameters, here setting it as ejs
+app.use(expressSession( { secret: 'max', saveUninitialized: false, resave: false} ));
 
 //for css
 app.use(express.static(__dirname + '/public'));
 
+
+
 app.get('/', (req, res) => {
 
-    const pizzaSize = new Pizza.PizzaSize();
+    const pizza = new Pizza.Pizza();
 
     res.render('index', {
         title: "Pizza Page",
         size: {
-            personal: pizzaSize.personal,
-            small: pizzaSize.small,
-            medium: pizzaSize.medium,
-            large: pizzaSize.large
+            personal: pizza.personal,
+            small: pizza.small,
+            medium: pizza.medium,
+            large: pizza.large
         },
         sizeCost: {
-            personal: pizzaSize.personalCost,
-            small: pizzaSize.smallCost,
-            medium: pizzaSize.mediumCost,
-            large: pizzaSize.largeCost
+            personal: pizza.personalCost,
+            small: pizza.smallCost,
+            medium: pizza.mediumCost,
+            large: pizza.largeCost
         },
         crust : {
-            original: pizzaSize.original,
-            thin: pizzaSize.thinCrust,
-            multigrain: pizzaSize.multigrain,
-            multigrainThin: pizzaSize.multigrainThinCrust
+            original: pizza.original,
+            thin: pizza.thinCrust,
+            multigrain: pizza.multigrain,
+            multigrainThin: pizza.multigrainThinCrust
         },
         crustCost: {
-            original: pizzaSize.originalCost,
-            thin: pizzaSize.thinCrustCost,
-            multigrain: pizzaSize.multigrainCost,
-            multigrainThin: pizzaSize.multigrainThinCrustCost
+            original: pizza.originalCost,
+            thin: pizza.thinCrustCost,
+            multigrain: pizza.multigrainCost,
+            multigrainThin: pizza.multigrainThinCrustCost
         },
         toppings: {
-            anchovies: pizzaSize.toppingsAnchovies,
-            bacon: pizzaSize.toppingsBacon,
-            bananaPeppers: pizzaSize.toppingsBananaPeppers,
-            cheese: pizzaSize.toppingsCheese,
-            chicken: pizzaSize.toppingsChicken,
-            corn: pizzaSize.toppingsCorn,
-            ham: pizzaSize.toppingsHam,
-            pepperoni: pizzaSize.toppingsPepperoni,
-            pineapple: pizzaSize.toppingsPineapple,
-            olives: pizzaSize.toppingsOlives
+            anchovies: pizza.toppingsAnchovies,
+            bacon: pizza.toppingsBacon,
+            bananaPeppers: pizza.toppingsBananaPeppers,
+            cheese: pizza.toppingsCheese,
+            chicken: pizza.toppingsChicken,
+            corn: pizza.toppingsCorn,
+            ham: pizza.toppingsHam,
+            pepperoni: pizza.toppingsPepperoni,
+            pineapple: pizza.toppingsPineapple,
+            olives: pizza.toppingsOlives
         },
         toppingsCost: {
-            anchovies: pizzaSize.toppingsAnchoviesCost,
-            bacon: pizzaSize.toppingsBaconCost,
-            bananaPeppers: pizzaSize.toppingsBananaPeppersCost,
-            cheese: pizzaSize.toppingsCheeseCost,
-            chicken: pizzaSize.toppingsChickenCost,
-            corn: pizzaSize.toppingsCornCost,
-            ham: pizzaSize.toppingsHamCost,
-            pepperoni: pizzaSize.toppingsPepperoniCost,
-            pineapple: pizzaSize.toppingsPineappleCost,
-            olives: pizzaSize.toppingsOlivesCost
+            anchovies: pizza.toppingsAnchoviesCost,
+            bacon: pizza.toppingsBaconCost,
+            bananaPeppers: pizza.toppingsBananaPeppersCost,
+            cheese: pizza.toppingsCheeseCost,
+            chicken: pizza.toppingsChickenCost,
+            corn: pizza.toppingsCornCost,
+            ham: pizza.toppingsHamCost,
+            pepperoni: pizza.toppingsPepperoniCost,
+            pineapple: pizza.toppingsPineappleCost,
+            olives: pizza.toppingsOlivesCost
         }
     });
 });
 
 app.post('/views/orderConfirm.ejs', (req, res) => {
     const reqBody = req.body;
-    const pizzaSize = req.body.pizzaSize;
-    const pizzaCrust = req.body.pizzaCrust;
-    const pizzaToppings = req.body.pizzaToppings;
+    const pizzaSize = reqBody.pizzaSize;
+    const pizzaCrust = reqBody.pizzaCrust;
+    const pizzaToppings = reqBody.pizzaToppings;
+    const pizzaQuantity = reqBody.pizzaQuantity;
 
-    const pizzaOrder = new Pizza.Pizza(pizzaSize, pizzaCrust, pizzaToppings);
-    const calculator = new PriceCalculator.PriceCalculator(pizzaSize, pizzaCrust, pizzaToppings);
-    console.log(typeof pizzaToppings);
-    res.render('orderConfirm',{
-        name: reqBody.name,
-        phoneNumber: reqBody.phoneNmber,
-        streetAddress: reqBody.streetAddress,
-        unitNumber: reqBody.unitNumber,
-        city: reqBody.city,
-        postalCode: reqBody.postalCode,
-        title: "Pizza Page after post",
-        size: pizzaOrder.pizzaSize,
-        sizeCost: calculator.showPizzaSizeCost(),
-        crust: pizzaOrder.pizzaCrust,
-        crustCost: calculator.showPizzaCrustCost(),
-        toppings: pizzaOrder.pizzaToppings,
-        toppingsCost: calculator.calculateToppingsCost(),
-        totalCost: calculator.calculateTotalCost()
-    });
+    const pizzaOrder = new Pizza.PizzaOrder(pizzaSize, pizzaCrust, pizzaToppings);
+    const calculator = new PriceCalculator.PriceCalculator(pizzaQuantity, pizzaSize, pizzaCrust, pizzaToppings);
+
+   
+    req.checkBody('name', "placeholder").isEmpty();
+    req.checkBody('phoneNumber', "placeholder").isNumeric();
+    req.checkBody('streetAddress', "placeholder").isAlphanumeric();
+    req.checkBody('city', "placeholder").isAlphanumeric();
+   // req.checkBody('postalCode', errorMessage.postalCodeError).isPostalCode();
+
+    const errors = req.validationErrors();
+
+    if(errors){
+        const pizza = new Pizza.Pizza();
+
+        res.render('index', {
+            title: "Pizza Page with errors",
+            nameError: errorMessage.nameError,
+            phoneError: errorMessage.phoneError,
+            addressError: errorMessage.addressError,
+            cityError: errorMessage.cityError,
+            postalCodeError: errorMessage.postalCodeError,
+            size: {
+                personal: pizza.personal,
+                small: pizza.small,
+                medium: pizza.medium,
+                large: pizza.large
+            },
+            sizeCost: {
+                personal: pizza.personalCost,
+                small: pizza.smallCost,
+                medium: pizza.mediumCost,
+                large: pizza.largeCost
+            },
+            crust : {
+                original: pizza.original,
+                thin: pizza.thinCrust,
+                multigrain: pizza.multigrain,
+                multigrainThin: pizza.multigrainThinCrust
+            },
+            crustCost: {
+                original: pizza.originalCost,
+                thin: pizza.thinCrustCost,
+                multigrain: pizza.multigrainCost,
+                multigrainThin: pizza.multigrainThinCrustCost
+            },
+            toppings: {
+                anchovies: pizza.toppingsAnchovies,
+                bacon: pizza.toppingsBacon,
+                bananaPeppers: pizza.toppingsBananaPeppers,
+                cheese: pizza.toppingsCheese,
+                chicken: pizza.toppingsChicken,
+                corn: pizza.toppingsCorn,
+                ham: pizza.toppingsHam,
+                pepperoni: pizza.toppingsPepperoni,
+                pineapple: pizza.toppingsPineapple,
+                olives: pizza.toppingsOlives
+            },
+            toppingsCost: {
+                anchovies: pizza.toppingsAnchoviesCost,
+                bacon: pizza.toppingsBaconCost,
+                bananaPeppers: pizza.toppingsBananaPeppersCost,
+                cheese: pizza.toppingsCheeseCost,
+                chicken: pizza.toppingsChickenCost,
+                corn: pizza.toppingsCornCost,
+                ham: pizza.toppingsHamCost,
+                pepperoni: pizza.toppingsPepperoniCost,
+                pineapple: pizza.toppingsPineappleCost,
+                olives: pizza.toppingsOlivesCost
+            }
+        });
+    } else {
+        res.render('orderConfirm',{
+            name: reqBody.name,
+            phoneNumber: reqBody.phoneNumber,
+            streetAddress: reqBody.streetAddress,
+            unitNumber: reqBody.unitNumber,
+            city: reqBody.city,
+            postalCode: reqBody.postalCode,
+            title: "Pizza Page after post",
+            quantity: pizzaQuantity,
+            size: pizzaOrder.pizzaSize,
+            sizeCost: calculator.showPizzaSizeCost(),
+            crust: pizzaOrder.pizzaCrust,
+            crustCost: calculator.showPizzaCrustCost(),
+            toppings: pizzaOrder.pizzaToppings,
+            toppingsCost: calculator.calculateToppingsCost(),
+            totalCost: calculator.calculateTotalCost()
+        });
+    }
+
+    // console.log(validator.isEmpty((reqBody.name)));
+
+   
 });
 
 app.listen(3000, () => {
