@@ -1,28 +1,26 @@
 //node modules
-const express = require('express'),
-      bodyParser = require('body-parser'),
-      expressSession = require("express-session"),
+const express          = require('express'),
+      bodyParser       = require('body-parser'),
+      expressSession   = require("express-session"),
       expressValidator = require('express-validator'),
-      validator = require('validator');
+      check            = require('express-validator/check');
 
 //local modules
- const errorMessage = require('./errorMessages.json');
-       Pizza = require('./Pizza.js'),
+const  Pizza = require('./Pizza.js'),
        PriceCalculator = require('./PriceCalculator.js');
 
 const app = express();
 
-//Register body parser
-app.use(bodyParser.urlencoded({ extended: false}));
+//Register body-parser, expressValidator, view engine
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 app.set('view engine', 'ejs'); //setting configuration parameters, here setting it as ejs
-app.use(expressSession( { secret: 'max', saveUninitialized: false, resave: false} ));
 
 //for css
 app.use(express.static(__dirname + '/public'));
 
-
-
+//Render initial page
 app.get('/', (req, res) => {
 
     const pizza = new Pizza.Pizza();
@@ -80,7 +78,35 @@ app.get('/', (req, res) => {
     });
 });
 
-app.post('/views/orderConfirm.ejs', (req, res) => {
+//post request using express-validator for validation
+app.post('/order', [
+     //use express validator check to validate user entry
+     check.body('name', "Please enter your name.")
+     .exists().not().isEmpty()
+     .withMessage("A name is required."),
+
+     check.body('phoneNumber', "Please enter only digits.")
+     .exists().not().isEmpty()
+     .withMessage("A phone number is required. Please use only digits.")
+     .isMobilePhone('any'),
+
+     check.body('streetAddress', "Please use alphanumeric characters.")
+     .exists().not().isEmpty()
+     .withMessage("A street address is required.")
+     .isAlphanumeric(),
+
+     check.body('city', "Please use alphanumeric characters.")
+     .exists().not().isEmpty()
+     .withMessage("A city name is required.")
+     .isAlphanumeric(),
+
+     check.body('postalCode', "A valid postal code is required")
+     .exists().not().isEmpty()
+     .withMessage("A valid postal code is required.")
+     .isPostalCode('CA')
+
+], (req, res) => {
+    //const variables for commonly used objects
     const reqBody = req.body;
     const pizzaSize = reqBody.pizzaSize;
     const pizzaCrust = reqBody.pizzaCrust;
@@ -90,25 +116,31 @@ app.post('/views/orderConfirm.ejs', (req, res) => {
     const pizzaOrder = new Pizza.PizzaOrder(pizzaSize, pizzaCrust, pizzaToppings);
     const calculator = new PriceCalculator.PriceCalculator(pizzaQuantity, pizzaSize, pizzaCrust, pizzaToppings);
 
-   
-    req.checkBody('name', "placeholder").isEmpty();
-    req.checkBody('phoneNumber', "placeholder").isNumeric();
-    req.checkBody('streetAddress', "placeholder").isAlphanumeric();
-    req.checkBody('city', "placeholder").isAlphanumeric();
-   // req.checkBody('postalCode', errorMessage.postalCodeError).isPostalCode();
+    //assign errors variable with the results of check validation
+    const errors = check.validationResult(req);
 
-    const errors = req.validationErrors();
-
-    if(errors){
+    console.log(res);
+    if(!errors.isEmpty()){
         const pizza = new Pizza.Pizza();
+        const errorMessages = errors.mapped();//returns an object with key value pairs for errors
+
+        console.log(errorMessages);
 
         res.render('index', {
-            title: "Pizza Page with errors",
-            nameError: errorMessage.nameError,
-            phoneError: errorMessage.phoneError,
-            addressError: errorMessage.addressError,
-            cityError: errorMessage.cityError,
-            postalCodeError: errorMessage.postalCodeError,
+            title: "Pizza Page with Errors",
+            //Resets original values so user can see what they previously entered
+            //format is >>> html element value: name of HTML element returned by request body
+            name: reqBody.name,
+            phoneNumber: reqBody.phoneNumber,
+            streetAddress: reqBody.streetAddress,
+            city: reqBody.city,
+            postalCode: reqBody.postalCode,
+            //Conditionally set error messages
+            nameError: errorMessages.hasOwnProperty('name') ? errorMessages.name.msg : null,
+            phoneError: errorMessages.hasOwnProperty('phoneNumber') ? errorMessages.phoneNumber.msg : null,
+            addressError: errorMessages.hasOwnProperty('streetAddress') ? errorMessages.streetAddress.msg : null,
+            cityError: errorMessages.hasOwnProperty('city') ? errorMessages.city.msg : null,
+            postalCodeError: errorMessages.hasOwnProperty('postalCode') ? errorMessages.postalCode.msg : null,
             size: {
                 personal: pizza.personal,
                 small: pizza.small,
@@ -121,6 +153,7 @@ app.post('/views/orderConfirm.ejs', (req, res) => {
                 medium: pizza.mediumCost,
                 large: pizza.largeCost
             },
+            sizeChosen: reqBody.pizzaSize,
             crust : {
                 original: pizza.original,
                 thin: pizza.thinCrust,
@@ -133,6 +166,7 @@ app.post('/views/orderConfirm.ejs', (req, res) => {
                 multigrain: pizza.multigrainCost,
                 multigrainThin: pizza.multigrainThinCrustCost
             },
+            crustChosen: reqBody.pizzaCrust,
             toppings: {
                 anchovies: pizza.toppingsAnchovies,
                 bacon: pizza.toppingsBacon,
@@ -159,6 +193,9 @@ app.post('/views/orderConfirm.ejs', (req, res) => {
             }
         });
     } else {
+        return 
+        console.log("WHAT")
+
         res.render('orderConfirm',{
             name: reqBody.name,
             phoneNumber: reqBody.phoneNumber,
@@ -177,10 +214,6 @@ app.post('/views/orderConfirm.ejs', (req, res) => {
             totalCost: calculator.calculateTotalCost()
         });
     }
-
-    // console.log(validator.isEmpty((reqBody.name)));
-
-   
 });
 
 app.listen(3000, () => {
