@@ -1,3 +1,10 @@
+/****************************
+*Generig HTML ELEMENTS
+*****************************/
+
+h1, h2, h3, h4, p, div {
+    text-transform: capitalize;
+}
 
 /****************************
 *Order Page
