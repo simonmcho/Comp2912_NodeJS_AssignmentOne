@@ -24,6 +24,14 @@ app.use(express.static(__dirname + '/public'));
 app.get('/', (req, res) => {
 
     const pizza = new Pizza.Pizza();
+  If i'm reading this correctly:  you're creating a 'Pizza' instance to generate
+  an object of options to populate the Pizza selection menu?  this is a good
+  example to brainstorm design patterns.
+
+    Some topics:
+      how would you add or remove options?
+      selecting default options?
+      does it make sense to get these options from the 'config.json' file?
 
     res.render('index', {
         title: "Pizza Page",
@@ -124,8 +132,10 @@ app.post('/order', [
         const pizza = new Pizza.Pizza();
         const errorMessages = errors.mapped();//returns an object with key value pairs for errors
 
+      was this meant to be removed later?
         // console.log(errorMessages);
         
+        what were you trying to see with this log?  if there was a server error - how would this message help you debug the issue?
         console.log(reqBody.pizzaCrust);
         res.render('index', {
             title: "Pizza Page with Errors",

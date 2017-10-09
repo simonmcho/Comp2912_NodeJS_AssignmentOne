@@ -1,3 +1,5 @@
+NOTE:  convert to markdown:
+https://guides.github.com/pdfs/markdown-cheatsheet-online.pdf
 ///////////////////////////////////////////////////////////////////
 //COMP 2912 Node.js Fundamentals 
 //Assignment One
