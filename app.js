@@ -1,5 +1,6 @@
 //node modules
-const express          = require('express'),
+const fs               = require('fs');
+      express          = require('express'),
       bodyParser       = require('body-parser'),
       expressSession   = require("express-session"),
       expressValidator = require('express-validator'),
@@ -24,14 +25,10 @@ app.use(express.static(__dirname + '/public'));
 app.get('/', (req, res) => {
 
     const pizza = new Pizza.Pizza();
-  If i'm reading this correctly:  you're creating a 'Pizza' instance to generate
-  an object of options to populate the Pizza selection menu?  this is a good
-  example to brainstorm design patterns.
-
-    Some topics:
-      how would you add or remove options?
-      selecting default options?
-      does it make sense to get these options from the 'config.json' file?
+//     Some topics:
+//       how would you add or remove options?
+//       selecting default options?
+//       does it make sense to get these options from the 'config.json' file?
 
     res.render('index', {
         title: "Pizza Page",
@@ -127,16 +124,9 @@ app.post('/order', [
     //assign errors variable with the results of check validation
     const errors = check.validationResult(req);
 
-    console.log(errors.isEmpty());
     if(!errors.isEmpty()){
         const pizza = new Pizza.Pizza();
         const errorMessages = errors.mapped();//returns an object with key value pairs for errors
-
-      was this meant to be removed later?
-        // console.log(errorMessages);
-        
-        what were you trying to see with this log?  if there was a server error - how would this message help you debug the issue?
-        console.log(reqBody.pizzaCrust);
         res.render('index', {
             title: "Pizza Page with Errors",
             //Resets original values so user can see what they previously entered
@@ -204,24 +194,55 @@ app.post('/order', [
             }
         });
     } else {
-        return res.render('orderConfirm',{
-            name: reqBody.name,
+        var customerOrder = {
+            name: reqBody.name, 
             phoneNumber: reqBody.phoneNumber,
             streetAddress: reqBody.streetAddress,
             unitNumber: reqBody.unitNumber,
             city: reqBody.city,
             postalCode: reqBody.postalCode,
-            title: "Pizza Page after post",
             quantity: pizzaQuantity,
-            size: pizzaOrder.pizzaSize,
+            pizzaSize: pizzaOrder.pizzaSize,
             sizeCost: calculator.showPizzaSizeCost(),
-            crust: pizzaOrder.pizzaCrust,
+            pizzaCrust: pizzaOrder.pizzaCrust,
             crustCost: calculator.showPizzaCrustCost(),
-            toppings: pizzaOrder.pizzaToppings,
+            pizzaToppings: pizzaOrder.pizzaToppings,
             toppingsCost: calculator.calculateToppingsCost(),
             totalCost: calculator.calculateTotalCost()
+        };
+  
+        var data = JSON.stringify(customerOrder);
+
+        fs.writeFile('example.json', data, 'utf8', (err) => {
+            if(err){
+                console.log(err);
+            }
+        });
+
+        var order = JSON.parse(data);
+
+        res.render('orderConfirm',{
+            name: order.name,
+            phoneNumber: order.phoneNumber,
+            streetAddress: order.streetAddress,
+            unitNumber: order.unitNumber,
+            city: order.city,
+            postalCode: order.postalCode,
+            title: "Pizza Page after post",
+            quantity: order.pizzaQuantity,
+            size: order.pizzaSize,
+            sizeCost: order.sizeCost,
+            crust: order.pizzaCrust,
+            crustCost: order.crustCost,
+            toppings: order.pizzaToppings,
+            toppingsCost: order.toppingsCost,
+            totalCost: order.totalCost
         });
     }
+});
+
+app.get('/order', (req, res) => {
+    res.redirect('orderConfirm');
 });
 
 app.listen(3000, () => {

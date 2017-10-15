@@ -3,10 +3,10 @@ const pizzaConfig = require('./config.json');
 class Pizza {//class Pizza to show pizza options
     constructor(){
 
-        what about passing in an object as arguments when constructing this
-        pizza instance?  we could also add default values.
+        // what about passing in an object as arguments when constructing this
+        // pizza instance?  we could also add default values.
         for(let size in pizzaConfig.pizzaSize){
-            if you want to leave the instantiation patter as-is: a case statement might read easier here
+            //if you want to leave the instantiation patter as-is: a case statement might read easier here
             if("personal" === `${size}`){
                 this.personal =  `${size}`;
                 this.personalCost = `${pizzaConfig.pizzaSize[size]}`;

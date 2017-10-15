@@ -42,7 +42,13 @@
                 Your Pizza toppings cost is $<%= toppingsCost.toFixed(2) %> <br>
                 Your total Cost is $<%= totalCost.toFixed(2) %>
             </p>
-        </div>
+            <div>
+                <form class="confirmOrder" action="" method="get">
+                    <input id="confirmPizzaOrder" type="submit" name="submitted" value="Confirm order">
+                    <input id="cancelPizzaOrder" type="submit" name="cancelled" value="Cancel Order">
+                </form>
+            </div>
+        </div><!-- /Main Content -->
         <% include partials/footer.ejs %>
     </body>
 </html>

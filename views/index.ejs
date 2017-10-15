@@ -39,15 +39,12 @@
 
                 <!--city-->
                 City: <input type="text" name="city" value=
-                Quotes look funny here.  I also can't pass the form validation
                 "<% if(typeof(city) !== 'undefined'){ %><%=city%><%} %>" > 
                 <% if(typeof(cityError) !== 'undefined') {%>
                     <%= cityError %> 
                 <%    } %>
                 <br>
-
                 <!--postal code -->
-                I can't pass the form validation for this either
                 Postal Code: <input type="text" name="postalCode" value=
                 "<% if(typeof(postalCode) !== 'undefined'){ %><%=postalCode%><%} %>" > 
                 <% if(typeof(postalCodeError) !== 'undefined') {%>
@@ -56,7 +53,6 @@
                 <br>
             </div>
             <div>
-                Button doesn't work?
                 Quantity: <select class="pizza-quantity" name="pizzaQuantity"></select>
             </div>
             <div>
@@ -104,4 +100,3 @@
         <% include partials/footer.ejs %>
     </body>
 </html>
-
