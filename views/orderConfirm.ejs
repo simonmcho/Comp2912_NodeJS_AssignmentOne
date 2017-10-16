@@ -10,12 +10,12 @@
                 <h4>PIzza Crust Chosen: <%= crust.toUpperCase()%>, which is $<%=crustCost.toFixed(2)%></h4>
                 <h4 id='toppings-chosen'>Toppings Chosen:  <% if(typeof(toppings) === 'undefined') {%>None<%}%></h4>
                 <ul>
-                    <% if(typeof(toppings) !== 'undefined') { %><% if(typeof(toppings) === 'string'){%><li><%=toppings%></li><%} else {%> <% for(let i = 0; i < toppings.length; i++){ %><li><%= toppings[i].charAt(0).toUpperCase() + toppings[i].slice(1); %></li><% } %> 
+                    <% if(typeof(toppings) !== 'undefined') { %><% if(typeof(toppings) === 'string'){%><li><%=toppings%></li><%} else {%> <% for(let i = 0; i < toppings.length; i++){ %><li><%= toppings[i].charAt(0).toUpperCase() + toppings[i].slice(1); %></li><% } %>
                         <%}%>
                     <%}%>
                 </ul>
             </div><!--End of Pizza Choice info -->
-        
+
             <br>
             <h3>
                 Name: <%=name.toUpperCase()%>
@@ -43,9 +43,9 @@
                 Your total Cost is $<%= totalCost.toFixed(2) %>
             </p>
             <div>
-                <form class="confirmOrder" action="" method="get">
-                    <input id="confirmPizzaOrder" type="submit" name="submitted" value="Confirm order">
-                    <input id="cancelPizzaOrder" type="submit" name="cancelled" value="Cancel Order">
+                <form class="" action="/confirm" method="get">
+                    <button type="submit" name="button" formaction="/order">Confirm My Order!</button>
+                    <button type="submit" name="button" formaction="/">Cancel My Order</button>
                 </form>
             </div>
         </div><!-- /Main Content -->

@@ -4,32 +4,32 @@
     <body>
         <% include partials/header.ejs %>
         <% if(typeof(toppingsChosen) !== 'undefined') {%>
-            <%= toppingsChosen.anchovies %> 
+            <%= toppingsChosen.anchovies %>
         <%    } %>
         <form class="form-main content-main" action="/order" method="post">
             <!--Show value to the text boxes if user entry has errors -->
             <div id="form-personal-information">
                 <!--name-->
                 Name: <input type="text" name="name" value=
-                "<%if(typeof(name) !== 'undefined'){%><%=name%><%}%>" > 
+                "<%if(typeof(name) !== 'undefined'){%><%=name%><%}%>" >
                 <% if(typeof(nameError) !== 'undefined') {%>
-                    <%= nameError %> 
+                    <%= nameError %>
                 <%    } %>
                 <br>
 
                 <!--phone number-->
                 Phone Number: <input type="text" name="phoneNumber" value =
-                "<% if(typeof(phoneNumber) !== 'undefined'){ %><%=phoneNumber%><%} %>" > 
+                "<% if(typeof(phoneNumber) !== 'undefined'){ %><%=phoneNumber%><%} %>" >
                 <% if(typeof(phoneError) !== 'undefined') {%>
-                    <%= phoneError %> 
+                    <%= phoneError %>
                 <%    } %>
                 <br>
 
                 <!--street address-->
                 Street Address: <input type="text" name="streetAddress" value =
-                "<% if(typeof(streetAddress) !== 'undefined'){ %><%=streetAddress%><%} %>" > 
+                "<% if(typeof(streetAddress) !== 'undefined'){ %><%=streetAddress%><%} %>" >
                 <% if(typeof(addressError) !== 'undefined') {%>
-                    <%= addressError %> 
+                    <%= addressError %>
                 <%    } %>
                 <br>
 
@@ -39,16 +39,16 @@
 
                 <!--city-->
                 City: <input type="text" name="city" value=
-                "<% if(typeof(city) !== 'undefined'){ %><%=city%><%} %>" > 
+                "<% if(typeof(city) !== 'undefined'){ %><%=city%><%} %>" >
                 <% if(typeof(cityError) !== 'undefined') {%>
-                    <%= cityError %> 
+                    <%= cityError %>
                 <%    } %>
                 <br>
                 <!--postal code -->
                 Postal Code: <input type="text" name="postalCode" value=
-                "<% if(typeof(postalCode) !== 'undefined'){ %><%=postalCode%><%} %>" > 
+                "<% if(typeof(postalCode) !== 'undefined'){ %><%=postalCode%><%} %>" >
                 <% if(typeof(postalCodeError) !== 'undefined') {%>
-                    <%= postalCodeError %> 
+                    <%= postalCodeError %>
                  <%    } %>
                 <br>
             </div>

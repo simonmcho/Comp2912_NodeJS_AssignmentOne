@@ -23,7 +23,6 @@ app.use(express.static(__dirname + '/public'));
 
 //Render initial page
 app.get('/', (req, res) => {
-
     const pizza = new Pizza.Pizza();
 //     Some topics:
 //       how would you add or remove options?
@@ -195,7 +194,7 @@ app.post('/order', [
         });
     } else {
         var customerOrder = {
-            name: reqBody.name, 
+            name: reqBody.name,
             phoneNumber: reqBody.phoneNumber,
             streetAddress: reqBody.streetAddress,
             unitNumber: reqBody.unitNumber,
@@ -210,7 +209,7 @@ app.post('/order', [
             toppingsCost: calculator.calculateToppingsCost(),
             totalCost: calculator.calculateTotalCost()
         };
-  
+
         var data = JSON.stringify(customerOrder);
 
         fs.writeFile('example.json', data, 'utf8', (err) => {
@@ -241,12 +240,14 @@ app.post('/order', [
     }
 });
 
-app.get('/order', (req, res) => {
-    res.redirect('orderConfirm');
+//if confirm order, then stay on orderConfirm.ejs with a confirm message
+app.post('/order', (req, res) => {
+  console.log(req.body);
 });
+
+//if order cancelled, go back to index page with user's selections
+
 
 app.listen(3000, () => {
     console.log('listening on port 3000');
 });
-
-
